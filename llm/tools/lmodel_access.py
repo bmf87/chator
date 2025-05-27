@@ -12,10 +12,7 @@ class LModelAccess:
         ],
         "mistral": [
             "mistralai/mistral-small-3.1-24b-instruct:free"             # 24B: variant of Mistral 3.1 optimized for chat and multi-modal tasks
-        ],
-        "meta":[
-            "meta-llama/llama-3.1-405b:free",                           # 405B: base pre-trained flagship model
-        ],                                                      
+        ],                                          
         "deepseek": [
             "deepseek/deepseek-r1:free",                                # 671B: flagship model    
             "deepseek/deepseek-prover-v2:free",                         # 685B: fine-tuned for reasoning and RAG      
