@@ -104,7 +104,7 @@ AUTHORIZATION_URL = "https://accounts.google.com/o/oauth2/v2/auth"
 TOKEN_URL = "https://oauth2.googleapis.com/token"
 # used to revoke the access token when the user logs out
 REVOKE_URL = "https://oauth2.googleapis.com/revoke"
-CLIENT_ID = "590156720769-jmekkj9536jr8pg9b9vei27c61149n0c.apps.googleusercontent.com"
+CLIENT_ID = st.secrets.OAUTH_CLIENT_ID
 CLIENT_SECRET = st.secrets.OAUTH_CLIENT_SECRET
 REDIRECT_URI = "https://chat-open-router.streamlit.app/"
 #REDIRECT_URI = "http://localhost:8501/"
