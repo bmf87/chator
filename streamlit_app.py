@@ -127,7 +127,7 @@ def main():
                                          )
         if result:
             st.session_state.token = result.get('token')
-            log.info(st.session_state.token)
+            log.debug(st.session_state.token)
             # decode JWT id_token jwt containing user auth info (email)
             id_token = st.session_state.token.get("id_token")
             st.session_state.auth_email = get_user_info(id_token)
