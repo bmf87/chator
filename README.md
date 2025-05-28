@@ -1,22 +1,14 @@
-# 📦 Streamlit App Starter Kit 
+# 📦 LLM Chat App
 
-A Simple Template to get started with Streamlit apps
+An LLM Chat application that uses the OpenRouter API
+
+## OpenRouter
+
+[OpenRouter](https://openrouter.ai) provides a unified interface for leveraging LLMs with an API compatible with OpenAI
+
+- Provides an endpoint with a built-in fallback API.  Alleviating the need to deal with API failures
+- Integrates nicely with ChatOpenAI class in LangChain
 
 ## Demo App
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://app-starter-kit.streamlit.app/)
-
-## GitHub Codespaces
-
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/streamlit/app-starter-kit?quickstart=1)
-
-## Section Heading
-
-This is filler text, please replace this with text for this section.
-
-## Further Reading
-
-This is filler text, please replace this with a explanatory text about further relevant resources for this repo
-- Resource 1
-- Resource 2
-- Resource 3
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://chat-open-router.streamlit.app/)
