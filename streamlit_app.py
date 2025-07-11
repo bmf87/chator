@@ -6,12 +6,15 @@ from streamlit_oauth import OAuth2Component
 from streamlit.runtime.scriptrunner import get_script_run_ctx
 
 
-sb_initial_state = "expanded"
+app_name = "LLM Chatbot"
+app_dns = "https://chat-open-router.streamlit.app/"
 openai_api_key = st.secrets.openrouter_api_key
-mu = LModelAccess(openai_api_key)
+log = st.logger.get_logger(__name__)
+mu = LModelAccess(app_name, app_dns, openai_api_key)
 models = mu.get_all_models()
 selected_model = models[0]
-log = st.logger.get_logger(__name__)
+sb_initial_state = "expanded"
+
 avatar_lkp = ({
     "Male" : "images/man.png",
     "Female" : "images/woman.png",
@@ -20,7 +23,7 @@ avatar_lkp = ({
 
 def app_setup():
     st.set_page_config(
-        page_title="LLM Chatbot",
+        page_title=app_name,
         page_icon=":earth_americas:",
         layout="wide",
         initial_sidebar_state=sb_initial_state,
@@ -106,7 +109,7 @@ TOKEN_URL = "https://oauth2.googleapis.com/token"
 REVOKE_URL = "https://oauth2.googleapis.com/revoke"
 CLIENT_ID = st.secrets.OAUTH_CLIENT_ID
 CLIENT_SECRET = st.secrets.OAUTH_CLIENT_SECRET
-REDIRECT_URI = "https://chat-open-router.streamlit.app/"
+REDIRECT_URI = app_dns
 #REDIRECT_URI = "http://localhost:8501/"
 SCOPE = "openid email profile"
 
@@ -160,15 +163,14 @@ def main():
                 with st.chat_message("user", avatar=st.session_state.user_avator):
                     st.markdown(prompt)
 
-            # Get llm response
-            response = get_response(st.session_state.llm, prompt, session_id)
-            # Add to chat history
-            st.session_state.messages.append({"role": "assistant", "content": response})
-            with st.chat_message("assistant", avatar=bot_avator):
-                st.markdown(response)
+                # Get llm response
+                response = get_response(st.session_state.llm, prompt, session_id)
+                # Add to chat history
+                st.session_state.messages.append({"role": "assistant", "content": response})
+                with st.chat_message("assistant", avatar=bot_avator):
+                    st.markdown(response)
 
 # end main()
-
 
 if __name__ == "__main__":
     main()

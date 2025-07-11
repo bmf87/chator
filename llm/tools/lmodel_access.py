@@ -1,4 +1,5 @@
 from langchain_openai import ChatOpenAI
+import streamlit as st
 
 class LModelAccess:
     """
@@ -8,25 +9,36 @@ class LModelAccess:
     
     model_repository = {
         "nvidia": [
-            "nvidia/llama-3.1-nemotron-ultra-253b-v1:free",             # 253B: optimized for advanced reasoning, chat and RAG
+            "nvidia/llama-3.3-nemotron-super-49b-v1:free",             # 49B: optimized for advanced reasoning, chat and RAG
+        ],
+        "meta": [
+            "meta-llama/llama-4-scout:free"                             # 109B: 17B active params w/ 16 experts (MoE)
         ],
         "mistral": [
             "mistralai/mistral-small-3.1-24b-instruct:free"             # 24B: variant of Mistral 3.1 optimized for chat and multi-modal tasks
         ],                                          
         "deepseek": [
-            "deepseek/deepseek-r1:free",                                # 671B: flagship model    
+            "deepseek/deepseek-r1:free",                                # 671B: flagship model 37B active with inference  
             "deepseek/deepseek-prover-v2:free",                         # 685B: fine-tuned for reasoning and RAG      
-            "deepseek/deepseek-chat-v3-0324:free"                       # 685B: mixture of experts model    
+            "deepseek/deepseek-chat-v3-0324:free"                       # 685B: MoE chat model    
         ]
     }
    
 
-    def __init__(self, api_key=None):
+    def __init__(self, app_name, app_dns, api_key=None):
         """
         Initialize the LModelAccess class.
         """
+        self.log = st.logger.get_logger(__name__)
+        self.app_name = app_name
+        self.app_dns = app_dns
         self.api_base_url = "https://openrouter.ai/api/v1"
+        self.log.debug("LModelAccess initialized for app: %s", self.app_name)
+        if api_key is None:
+            self.log.critical("OpenRouter API key was not provided!")
+            raise ValueError("OpenRouter API key must be provided!")
         self.api_key = api_key
+
 
     
     def get_model_by_provider(self, provider):
@@ -57,7 +69,7 @@ class LModelAccess:
 
         Args:
             model_name (str): The name of the model.
-            temperature (float): The temperature for the model.
+            temperature (float): The temperature for the model. Default is 0.0.
 
         Returns:
             ChatOpenAI: An instance of the ChatOpenAI class.
@@ -66,7 +78,10 @@ class LModelAccess:
             temperature=temperature,
             openai_api_key=self.api_key,
             openai_api_base=self.api_base_url,
-            model_name=model_name
+            model_name=model_name,
+            default_headers={
+                "X-Title": self.app_name,
+                "HTTP-Referer": self.app_dns
+            },
         )
         return llm
-
